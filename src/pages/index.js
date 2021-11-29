@@ -8,10 +8,11 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const { data: session, status } = useSession();
+  const { data: session, status, ...rest } = useSession();
   const { t } = useTranslation();
 
-  console.log(session, status, "OPTS");
+  console.log(session, status, rest);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -24,16 +25,32 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">{t("title")}</a>
         </h1>
-        <a
-          href={`/api/auth/signin`}
-          // className={styles.buttonPrimary}
-          onClick={(e) => {
-            e.preventDefault();
-            signIn();
-          }}
-        >
-          Sign in
-        </a>
+
+        {!session && (
+          <a
+            href={`/api/auth/signin`}
+            // className={styles.buttonPrimary}
+            onClick={(e) => {
+              e.preventDefault();
+              signIn();
+            }}
+          >
+            Sign in
+          </a>
+        )}
+
+        {session && (
+          <a
+            href={`/api/auth/signout`}
+            // className={styles.buttonPrimary}
+            onClick={(e) => {
+              e.preventDefault();
+              signOut();
+            }}
+          >
+            Sign out
+          </a>
+        )}
       </main>
 
       <footer className={styles.footer}></footer>

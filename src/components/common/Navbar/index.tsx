@@ -2,9 +2,9 @@ import { useState, useCallback, useEffect } from "react";
 
 // import LanguageSelector from "components/LanguageSelector";
 // import ToggleTheme from "components/ToggleTheme";
-import BurgerMenu from "components/Navbar/BurgerMenu";
+import BurgerMenu from "src/components/common/Navbar/BurgerMenu";
 
-import useWindowSize from "hooks/useWindowSize";
+import useWindowSize from "src/hooks/useWindowSize";
 
 import styles from "./Navbar.module.css";
 
