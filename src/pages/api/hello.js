@@ -1,5 +1,11 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import nextConnect from "next-connect";
+const handler = nextConnect();
 
-export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
-}
+import validateToken from "src/pages/_middlewares/validateToken";
+
+handler.use(validateToken());
+handler.get((req, res) => {
+  res.status(200).json({ name: "John Doe" });
+});
+
+export default handler;

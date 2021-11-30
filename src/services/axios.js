@@ -15,6 +15,10 @@ class ApiInstance {
   setToken(token) {
     this.instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
+
+  getHello() {
+    return this.instance.get("hello");
+  }
 }
 
 const api = new ApiInstance();
