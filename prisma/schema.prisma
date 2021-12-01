@@ -10,15 +10,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                 Int       @id @default(autoincrement())
+  compoundId         String    @unique @map(name: "compound_id")
+  user               User      @relation(references: [id], fields: [userId])
+  userId             String    @map(name: "user_id")
+  providerType       String    @map(name: "provider_type")
+  providerId         String    @map(name: "provider_id")
+  providerAccountId  String    @map(name: "provider_account_id")
+  refreshToken       String?   @map(name: "refresh_token")
+  accessToken        String?   @map(name: "access_token")
+  accessTokenExpires DateTime? @map(name: "access_token_expires")
+  createdAt          DateTime  @default(now()) @map(name: "created_at")
+  updatedAt          DateTime  @default(now()) @map(name: "updated_at")
+
+
+  @@index([providerAccountId], name: "providerAccountId")
+  @@index([providerId], name: "providerId")
+  @@index([userId], name: "userId")
+  @@map(name: "accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String   @map(name: "user_id")
+  expires      DateTime
+  sessionToken String   @unique @map(name: "session_token")
+  accessToken  String   @unique @map(name: "access_token")
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @default(now()) @map(name: "updated_at")
+
+  @@map(name: "sessions")
+}
+
 model User {
-  id       String     @id @default(cuid())
-  username String
-  email    String     @unique
-  avatar   String
-  password String
-  date     DateTime   @default(now())
-  Entry    Entry[]
-  Category Category[]
+  id            String     @id @default(cuid())
+  name          String?
+  email         String?    @unique
+  emailVerified DateTime?  @map(name: "email_verified")
+  image         String?
+  createdAt     DateTime   @default(now()) @map(name: "created_at")
+  updatedAt     DateTime   @default(now()) @map(name: "updated_at")
+  Entry         Entry[]
+  Category      Category[]
+
+  @@map(name: "users")
+  Account Account[]
+}
+
+model VerificationRequest {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @default(now()) @map(name: "updated_at")
+
+  @@map(name: "verification_requests")
 }
 
 model Entry {
@@ -26,7 +74,7 @@ model Entry {
   concept    String
   author     User     @relation(references: [id], fields: [authorId])
   category   Category @relation(references: [id], fields: [categoryId])
-  authorId     String
+  authorId   String
   categoryId String
   date       DateTime @default(now())
 }
@@ -36,6 +84,6 @@ model Category {
   name     String
   author   User     @relation(references: [id], fields: [authorId])
   authorId String
-  entries    Entry[]
+  entries  Entry[]
   date     DateTime @default(now())
 }

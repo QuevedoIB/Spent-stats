@@ -1,14 +1,18 @@
 import axios from "axios";
-import getCookie from "src/utils/getCookie";
+import { getToken } from "next-auth/jwt";
+
+const secret = process.env.JWT_SECRET;
 
 export default function validateToken() {
   return async (req, res, next) => {
-    const token = getCookie("next-auth.session-token", req.headers.cookie);
-    console.log(`${process.env.GOOGLE_VALIDATE_ENDPOINT}?id_token=${token}`);
+    const token = await getToken({ req, secret });
+    console.log(token?.accessToken, token);
     const data = await axios.get(
-      `${process.env.GOOGLE_VALIDATE_ENDPOINT}?id_token=${token}`
+      `${process.env.GOOGLE_VALIDATE_ENDPOINT}?id_token=${token?.accessToken}`
     );
-    console.log({ data });
+    console.log(
+      `${process.env.GOOGLE_VALIDATE_ENDPOINT}?id_token=${token?.accessToken}`
+    );
     next();
   };
 }
