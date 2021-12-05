@@ -1,7 +1,5 @@
 import { getSession } from "next-auth/react";
 
-import UserCard from "src/components/cards/User";
-
 export default function Profile({ session, ...props }) {
   console.log(session, props);
   return <section>Profile</section>;
