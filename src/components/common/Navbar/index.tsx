@@ -3,12 +3,13 @@ import { useState, useCallback, useEffect } from "react";
 // import LanguageSelector from "components/LanguageSelector";
 // import ToggleTheme from "components/ToggleTheme";
 import BurgerMenu from "src/components/common/Navbar/BurgerMenu";
+import UserMenu from "src/components/common/Navbar/UserMenu";
 
 import useWindowSize from "src/hooks/useWindowSize";
 
 import styles from "./Navbar.module.css";
 
-const Navbar = () => {
+const Navbar = ({session}) => {
   //   const [t] = useTranslation();
   const [openSideNav, setOpenSideNav] = useState(false);
   const handleMenuOpen = useCallback(
@@ -27,21 +28,7 @@ const Navbar = () => {
       </NavLink> */}
 
       <div className="centered-container">
-        {/* <LanguageSelector /> */}
-        {/* <ToggleTheme /> */}
-        {width > 768 ? (
-          //   <RoutesList />
-          <></>
-        ) : (
-          <>
-            <BurgerMenu isOpen={openSideNav} onToggle={handleMenuOpen} />
-            <div
-              className={`${styles.sideMenu} ${openSideNav ? styles.open : ""}`}
-            >
-              {/* <RoutesList /> */}
-            </div>
-          </>
-        )}
+        <UserMenu session={session} />
       </div>
     </nav>
   );

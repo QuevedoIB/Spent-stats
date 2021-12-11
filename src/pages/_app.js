@@ -8,7 +8,7 @@ import "../styles/globals.css";
 const App = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
     <SessionProvider session={session}>
-      <Navbar />
+      <Navbar session={session} />
       <Component {...pageProps} />
     </SessionProvider>
   );
