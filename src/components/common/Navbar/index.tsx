@@ -9,7 +9,7 @@ import useWindowSize from "src/hooks/useWindowSize";
 
 import styles from "./Navbar.module.css";
 
-const Navbar = ({session}) => {
+const Navbar = () => {
   //   const [t] = useTranslation();
   const [openSideNav, setOpenSideNav] = useState(false);
   const handleMenuOpen = useCallback(
@@ -28,7 +28,7 @@ const Navbar = ({session}) => {
       </NavLink> */}
 
       <div className="centered-container">
-        <UserMenu session={session} />
+        <UserMenu />
       </div>
     </nav>
   );

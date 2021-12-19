@@ -6,9 +6,10 @@ import Navbar from "src/components/common/Navbar/index.tsx";
 import "../styles/globals.css";
 
 const App = ({ Component, pageProps: { session, ...pageProps } }) => {
+  console.log({ session }, "APP");
   return (
     <SessionProvider session={session}>
-      <Navbar session={session} />
+      <Navbar />
       <Component {...pageProps} />
     </SessionProvider>
   );

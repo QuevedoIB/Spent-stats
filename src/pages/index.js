@@ -11,7 +11,7 @@ export default function Home() {
   const { data: session, status, ...rest } = useSession();
   const { t } = useTranslation();
 
-  console.log(session, status, rest);
+  console.log(session, status, rest, "HOME");
 
   return (
     <div className={styles.container}>
