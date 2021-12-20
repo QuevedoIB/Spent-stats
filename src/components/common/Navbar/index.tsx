@@ -1,4 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
+import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 // import LanguageSelector from "components/LanguageSelector";
 // import ToggleTheme from "components/ToggleTheme";
@@ -10,7 +12,7 @@ import useWindowSize from "src/hooks/useWindowSize";
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
-  //   const [t] = useTranslation();
+  const [t] = useTranslation();
   const [openSideNav, setOpenSideNav] = useState(false);
   const handleMenuOpen = useCallback(
     () => setOpenSideNav((currentState) => !currentState),
@@ -20,12 +22,11 @@ const Navbar = () => {
 
   return (
     <nav className={styles.container}>
-      {/* <NavLink to={generalRoutes.home.path}>
-        <div style={{ position: "relative" }}>
+      <Link href={"/"}>
+        <a style={{ position: "relative" }}>
           <h1 className={styles.title}>{t("title")}</h1>
-          <BasketBall />
-        </div>
-      </NavLink> */}
+        </a>
+      </Link>
 
       <div className="centered-container">
         <UserMenu />

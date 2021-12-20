@@ -21,6 +21,10 @@ body {
   --secondary-color: #7abebf;
   --tertiary-color: #e6e6e6;
   --border-radius: 1rem;
+
+  --spacing: 1rem;
+  --spacing-l: 2rem;
+  --spacing-xl: 4rem;
 }
 
 #__next {

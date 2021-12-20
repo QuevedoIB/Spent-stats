@@ -1,21 +1,21 @@
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { useTranslation } from "next-i18next";
-
 import { Menu } from "@headlessui/react";
+
+import styles from "./Navbar.module.css";
 
 const MyDropdown = () => {
   const { data: session } = useSession();
-  const { t } = useTranslation();
+  const [t] = useTranslation();
   if (!session) return null;
   const { image, name } = session.user;
   return (
-    <Menu>
-      <Menu.Button>
-        <Image src={image} alt={name} width={40} height={40} />
-        IMG
+    <Menu as="div" className={styles.menuContainer}>
+      <Menu.Button className={styles.menuButton}>
+        <Image src={image} alt={name} height={40} width={40} />
       </Menu.Button>
-      <Menu.Items>
+      <Menu.Items className={styles.menuItemsContainer}>
         <Menu.Item>
           {({ active }) => (
             <a
@@ -25,19 +25,6 @@ const MyDropdown = () => {
               Account settings
             </a>
           )}
-        </Menu.Item>
-        <Menu.Item>
-          {({ active }) => (
-            <a
-              className={`${active && "bg-blue-500"}`}
-              href="/account-settings"
-            >
-              Documentation
-            </a>
-          )}
-        </Menu.Item>
-        <Menu.Item disabled>
-          <span className="opacity-75">Invite a friend (coming soon!)</span>
         </Menu.Item>
         <Menu.Item>
           <button
