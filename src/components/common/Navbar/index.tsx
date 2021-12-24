@@ -7,8 +7,6 @@ import { useTranslation } from "next-i18next";
 import BurgerMenu from "src/components/common/Navbar/BurgerMenu";
 import UserMenu from "src/components/common/Navbar/UserMenu";
 
-import useWindowSize from "src/hooks/useWindowSize";
-
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
@@ -18,7 +16,6 @@ const Navbar = () => {
     () => setOpenSideNav((currentState) => !currentState),
     []
   );
-  const { width } = useWindowSize();
 
   return (
     <nav className={styles.container}>

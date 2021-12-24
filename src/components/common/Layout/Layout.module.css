@@ -1,6 +1,15 @@
 .container {
   padding: 2rem 4rem 2rem 4rem;
   scrollbar-gutter: auto;
+  height: calc(100vh - 8vh); /*navbar height, to be changed to a variable*/
+  width: 100%;
+}
+
+.loadingContainer {
+  display: grid;
+  place-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 @media only screen and (max-width: 992px) {

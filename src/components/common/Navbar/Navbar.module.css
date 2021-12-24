@@ -162,6 +162,7 @@
 }
 
 .menuItemsContainer {
+  min-width: max-content;
   position: absolute;
   right: 0;
   display: flex;
