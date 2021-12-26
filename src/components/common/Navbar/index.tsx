@@ -7,10 +7,12 @@ import { useTranslation } from "next-i18next";
 import BurgerMenu from "src/components/common/Navbar/BurgerMenu";
 import UserMenu from "src/components/common/Navbar/UserMenu";
 
+import routes from "src/routes";
+
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const [openSideNav, setOpenSideNav] = useState(false);
   const handleMenuOpen = useCallback(
     () => setOpenSideNav((currentState) => !currentState),
@@ -19,7 +21,7 @@ const Navbar = () => {
 
   return (
     <nav className={styles.container}>
-      <Link href={"/"}>
+      <Link href="/">
         <a style={{ position: "relative" }}>
           <h1 className={styles.title}>{t("title")}</h1>
         </a>

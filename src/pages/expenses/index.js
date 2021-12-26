@@ -1,8 +1,8 @@
 import { getSession } from "next-auth/react";
 
-export default function Profile({ session, ...props }) {
+export default function Expenses({ session, ...props }) {
   console.log(session, props);
-  return <section>Profile</section>;
+  return <section>Expenses</section>;
 }
 
 //get server side props

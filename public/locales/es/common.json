@@ -1,4 +1,6 @@
 {
-   "title": "Spent stats",
-   "logout": "Cerrar sesión"
+  "title": "Spent stats",
+  "logout": "Cerrar sesión",
+  "profile": "Perfil",
+  "expenses": "Gastos"
 }
