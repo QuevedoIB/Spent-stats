@@ -1,0 +1,32 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  display: grid;
+  place-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.modalContainer {
+  padding: var(--spacing);
+  min-height: 100px;
+  min-width: 100px;
+  border-radius: 6px;
+  background-color: cadetblue;
+}
+
+.close {
+  display: block;
+  margin-left: auto;
+}
+
+.close svg {
+  fill: var(--font-color);
+}
+
+.close:hover {
+  opacity: 0.6;
+}
