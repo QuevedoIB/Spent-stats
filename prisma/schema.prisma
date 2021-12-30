@@ -62,6 +62,7 @@ model VerificationToken {
 model Entry {
   id         String   @id @default(cuid())
   concept    String
+  amount     Int
   author     User     @relation(references: [id], fields: [authorId])
   category   Category @relation(references: [id], fields: [categoryId])
   authorId   String

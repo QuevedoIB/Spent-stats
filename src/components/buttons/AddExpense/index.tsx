@@ -2,6 +2,8 @@ import { useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { VscClose } from "react-icons/vsc";
 
+import ExpenseForm from "src/components/buttons/AddExpense/Form";
+
 import styles from "./AddExpense.module.css";
 
 import useToggle from "src/hooks/useToggle";
@@ -24,6 +26,7 @@ const AddExpense = () => {
         ReactDOM.createPortal(
           <div className={styles.overlay}>
             <section ref={modalRef} className={styles.modalContainer}>
+              <ExpenseForm />
               <button
                 type="button"
                 className={styles.close}
