@@ -4,7 +4,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import UserCard from "src/components/cards/User";
 
 export default function Profile({ session, ...props }) {
-  console.log(session, props);
   return <section>Profile</section>;
 }
 

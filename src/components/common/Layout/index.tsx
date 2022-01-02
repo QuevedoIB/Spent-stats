@@ -17,8 +17,6 @@ const Layout = ({ children }) => {
     if (!isLoading && !isLogged) signIn(); // If not authenticated, force log in for now, redirect to login to be changed
   }, [isLogged, isLoading]);
 
-  console.log(isLoading, isLogged, status, session);
-
   return (
     <div className={styles.container}>
       {isLoading ? (

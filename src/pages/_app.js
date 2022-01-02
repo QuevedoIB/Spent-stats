@@ -7,7 +7,6 @@ import Layout from "src/components/common/Layout";
 import "../styles/globals.css";
 
 const App = ({ Component, pageProps: { session, ...pageProps } }) => {
-  console.log({ session }, "APP");
   return (
     <SessionProvider session={session}>
       <Navbar />

@@ -4,7 +4,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import AddExpense from "src/components/buttons/AddExpense";
 
 export default function Expenses({ session, ...props }) {
-  console.log(session, props);
   return (
     <section>
       <h1>Expenses</h1>

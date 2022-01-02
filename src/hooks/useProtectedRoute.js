@@ -6,7 +6,6 @@ export default function useProtectedRoute() {
   const { session } = useSession();
 
   useEffect(() => {
-    console.log(session, "SESSION");
     if (!session) {
       Router.push("/");
     }
