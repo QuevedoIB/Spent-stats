@@ -1,5 +1,7 @@
 import { Formik, Form, FastField } from "formik";
 
+import ExpensesService from "src/services/ExpensesService";
+
 const initialValues = {
   concept: "",
   amount: "",
@@ -8,7 +10,13 @@ const initialValues = {
 };
 
 const ExpenseForm = () => {
-  const onSubmit = (values, actions) => {};
+  const onSubmit = async (values, actions) => {
+    console.log(values);
+
+    const res = await ExpensesService.createExpense(values);
+
+    console.log(res);
+  };
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>

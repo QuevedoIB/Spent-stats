@@ -4,7 +4,7 @@ const handler = nextConnect();
 import validateToken from "src/pages/_middlewares/validateToken";
 
 handler.use(validateToken());
-handler.get(async (req, res) => {
+handler.post(async (req, res) => {
   const { user, body } = req;
 
   if (!user?.email) return res.status(400).json({ error: "Missing user data" });
