@@ -1,0 +1,6 @@
+{
+    "presets": ["next/babel"],
+    "plugins": [
+      "superjson-next" //parse dates in server side props
+    ]
+}

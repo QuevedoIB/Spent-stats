@@ -1,27 +1,23 @@
 import { getSession } from "next-auth/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import useSWR from "swr";
+import { SWRConfig } from "swr";
 import { getExpenses } from "src/pages/api/expenses";
 
 import AddExpense from "src/components/buttons/AddExpense";
+import ExpensesList from "src/components/lists/expenses";
 
-import ExpensesService from "src/services/ExpensesService";
-
-export default function Expenses({ session, ...props }) {
-  const { data } = useSWR(
-    "/api/expenses",
-    async () => await ExpensesService.getExpenses()
-  );
-  console.log({ data });
+export default function Expenses({ session, fallback, ...props }) {
   return (
-    <section>
-      <h1>Expenses</h1>
-      <AddExpense />
-    </section>
+    <SWRConfig value={{ fallback }}>
+      <section>
+        <h1>Expenses</h1>
+        <ExpensesList />
+        <AddExpense />
+      </section>
+    </SWRConfig>
   );
 }
 
-//get server side props
 export async function getServerSideProps({ locale, ...context }) {
   const session = await getSession(context);
   if (!session) {
@@ -34,10 +30,6 @@ export async function getServerSideProps({ locale, ...context }) {
   }
 
   const expenses = await getExpenses(session.user);
-
-  //parse and map expenses Date for swr to work
-
-  console.log({ expenses }, typeof expenses[0].amount);
 
   return {
     props: {
