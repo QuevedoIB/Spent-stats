@@ -2,7 +2,7 @@ import useSWR from "swr";
 
 import ExpensesService from "src/services/ExpensesService";
 
-const dateFormatter = new Intl.DateTimeFormat("es-ES");
+import parseDate from "src/utils/parseDate";
 
 const ExpensesList = () => {
   const { data } = useSWR(
@@ -17,7 +17,7 @@ const ExpensesList = () => {
           <p>
             {expense.concept}: {expense.amount}€
           </p>
-          {/* <p>{dateFormatter.format(expense.date)}</p> */}
+          <p>{parseDate({ date: expense.date })}</p>
         </li>
       ))}
     </ul>

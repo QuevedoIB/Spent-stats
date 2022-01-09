@@ -10,10 +10,10 @@ class ApiInstance {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      transformResponse: (res) => {
-        console.log(res, JSON.parse(res));
-        return superjson.parse(res);
-      },
+      // transformResponse: (res) => {
+      //   console.log(res, JSON.parse(res));
+      //   return superjson.parse(res);
+      // },
       responseType: "json",
     });
 
