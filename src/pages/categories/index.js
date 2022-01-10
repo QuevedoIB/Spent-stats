@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SWRConfig } from "swr";
 import { getCategories } from "src/pages/api/categories";
 
-import AddExpense from "src/components/buttons/AddExpense";
+import AddCategory from "src/components/buttons/Add";
 import ExpensesList from "src/components/lists/expenses";
 
 // interface ICategories {
@@ -17,8 +17,8 @@ const Categories = ({ fallback }) => {
     <SWRConfig value={{ fallback }}>
       <section>
         <h1>Expenses</h1>
-        <ExpensesList />
-        <AddExpense />
+        {/* <ExpensesList /> */}
+        <AddCategory />
       </section>
     </SWRConfig>
   );
@@ -36,6 +36,8 @@ export async function getServerSideProps({ locale, ...context }) {
   }
 
   const categories = await getCategories(session.user);
+
+  console.log({ categories });
 
   return {
     props: {

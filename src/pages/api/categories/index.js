@@ -3,8 +3,8 @@ const handler = nextConnect();
 
 import validateToken from "src/pages/_middlewares/validateToken";
 
-const getCategories = async (user) => {
-  const userCategories = await prisma.categories.findMany({
+export const getCategories = async (user) => {
+  const userCategories = await prisma.category.findMany({
     where: {
       author: {
         email: user.email,
@@ -14,6 +14,8 @@ const getCategories = async (user) => {
       date: "desc",
     },
   });
+  console.log({ userCategories });
+  return userCategories;
 };
 
 handler.use(validateToken());

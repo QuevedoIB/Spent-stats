@@ -2,14 +2,12 @@ import { useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { VscClose } from "react-icons/vsc";
 
-import ExpenseForm from "src/components/buttons/AddExpense/Form";
-
-import styles from "./AddExpense.module.css";
+import styles from "./Add.module.css";
 
 import useToggle from "src/hooks/useToggle";
 import useOutsideClick from "src/hooks/useOutsideClick";
 
-const AddExpense = () => {
+const AddExpense: React.FC<{ text: string }> = ({ text, children }) => {
   const { toggled, handleToggle } = useToggle();
   const modalRef = useRef();
 
@@ -21,12 +19,11 @@ const AddExpense = () => {
 
   return (
     <>
-      <button onClick={handleToggle}>Add</button>
+      <button onClick={handleToggle}>{text}</button>
       {toggled &&
         ReactDOM.createPortal(
           <div className={styles.overlay}>
             <section ref={modalRef} className={styles.modalContainer}>
-              <ExpenseForm />
               <button
                 type="button"
                 className={styles.close}
@@ -34,6 +31,7 @@ const AddExpense = () => {
               >
                 <VscClose size={"2rem"} />
               </button>
+              {children}
             </section>
           </div>,
           document.body
