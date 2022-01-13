@@ -73,6 +73,7 @@ model Entry {
 model Category {
   id       String   @id @default(cuid())
   name     String   @unique
+  picture  String
   author   User     @relation(references: [id], fields: [authorId])
   authorId String
   entries  Entry[]

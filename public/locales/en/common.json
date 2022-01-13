@@ -1,7 +1,8 @@
 {
   "title": "Spent stats",
   "logout": "Log out",
-  "profile": "Perfil",
-  "expenses": "Gastos",
-  "categories": "Categorías"
+  "profile": "Profile",
+  "expenses": "Expenses",
+  "categories": "Categories",
+  "add": "Add {{element}}"
 }

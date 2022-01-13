@@ -1,10 +1,12 @@
 import { NextPage } from "next";
+import { useTranslation } from "next-i18next";
 import { getSession, SessionProviderProps } from "next-auth/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SWRConfig } from "swr";
 import { getCategories } from "src/pages/api/categories";
 
 import AddCategory from "src/components/buttons/Add";
+import CreateCategoryForm from "src/components/forms/CreateCategory";
 import ExpensesList from "src/components/lists/expenses";
 
 // interface ICategories {
@@ -12,13 +14,18 @@ import ExpensesList from "src/components/lists/expenses";
 //     fallback: object,
 // }
 
-const Categories = ({ fallback }) => {
+const Categories = ({ fallback, ...rest }) => {
+  const { t } = useTranslation();
   return (
     <SWRConfig value={{ fallback }}>
       <section>
-        <h1>Expenses</h1>
+        <h1>{t("categories")}</h1>
         {/* <ExpensesList /> */}
-        <AddCategory />
+        <AddCategory
+          text={t("add", { element: t("categories").toLowerCase() })}
+        >
+          <CreateCategoryForm />
+        </AddCategory>
       </section>
     </SWRConfig>
   );

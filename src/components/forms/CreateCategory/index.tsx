@@ -1,12 +1,14 @@
 import { Formik, Form, FastField } from "formik";
 
+import SelectCategoryIcon from "src/components/common/SelectCategoryIcon";
+
 import CategoriesService from "src/services/CategoriesService";
 
+import { CATEGORIES_PICTURES } from "src/constants";
+
 const initialValues = {
-  concept: "",
-  amount: "",
-  category: "",
-  date: "",
+  name: "",
+  picture: CATEGORIES_PICTURES[0].id,
 };
 
 const ExpenseForm = () => {
@@ -20,15 +22,16 @@ const ExpenseForm = () => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      {({ values, isValid, isSubmitting }) => {
+      {({ values, isValid, isSubmitting, setFieldValue }) => {
         return (
           <Form>
-            <FastField name="concept" type="text" placeholder="Concept" />
-            <FastField name="amount" type="number" placeholder="Amount" />
-            <FastField name="category" type="text" placeholder="Category" />
-            <FastField name="date" type="date" placeholder="Date" />
+            <SelectCategoryIcon
+              handleChange={setFieldValue}
+              selected={values.picture}
+            />
+            <FastField name="name" type="text" placeholder="name" />
             <button type="submit" disabled={!isValid || isSubmitting}>
-              Add Expense
+              Add Category
             </button>
           </Form>
         );
