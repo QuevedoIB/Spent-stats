@@ -1,18 +1,19 @@
 import useSWR from "swr";
+import { Entry } from "@prisma/client";
 
 import ExpensesService from "src/services/ExpensesService";
 
 import parseDate from "src/utils/parseDate";
 
 const ExpensesList = () => {
-  const { data } = useSWR(
+  const { data: expenses } = useSWR(
     "/api/expenses",
     async () => await ExpensesService.getExpenses()
   );
-  console.log({ data });
+  console.log({ expenses });
   return (
     <ul>
-      {data?.map((expense) => (
+      {expenses?.map((expense: Entry) => (
         <li key={expense.id}>
           <p>
             {expense.concept}: {expense.amount}€

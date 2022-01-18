@@ -10,10 +10,17 @@ handler.post(async (req, res) => {
   if (!user?.email) return res.status(400).json({ error: "Missing user data" });
 
   console.log({ user, body });
+  const { categoryId, ...data } = body;
 
-  //const newExpense = await prisma.entry.create({});
+  const newExpense = await prisma.entry.create({
+    data: {
+      ...data,
+      author: { connect: { email: user.email } },
+      category: { connect: { id: categoryId } },
+    },
+  });
 
-  res.status(200).json(true);
+  res.status(200).json(newExpense);
 });
 
 export default handler;

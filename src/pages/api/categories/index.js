@@ -13,8 +13,12 @@ export const getCategories = async (user) => {
     orderBy: {
       date: "desc",
     },
+    select: {
+      id: true,
+      name: true,
+      picture: true,
+    },
   });
-  console.log({ userCategories });
   return userCategories;
 };
 

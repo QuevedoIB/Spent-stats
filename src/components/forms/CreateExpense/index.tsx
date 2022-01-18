@@ -1,6 +1,8 @@
 import { Formik, Form, FastField } from "formik";
+import useSWR from "swr";
 
 import ExpensesService from "src/services/ExpensesService";
+import CategoriesService from "src/services/CategoriesService";
 
 const initialValues = {
   concept: "",
@@ -10,6 +12,13 @@ const initialValues = {
 };
 
 const ExpenseForm = () => {
+  const { data: categories } = useSWR(
+    "/api/categories",
+    async () => await CategoriesService.getCategories()
+  );
+
+  console.log({ categories });
+
   const onSubmit = async (values, actions) => {
     console.log(values);
 

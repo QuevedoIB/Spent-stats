@@ -1,19 +1,16 @@
 import axios from "axios";
-import superjson from "superjson";
+
+import { MINUTE_MILLISECONDS } from "src/constants";
 
 class ApiInstance {
   constructor() {
     this.instance = axios.create({
-      baseURL: "http://localhost:3000/api/",
-      timeout: 1000,
+      baseURL: process.env.NEXT_PUBLIC_API_URL,
+      timeout: MINUTE_MILLISECONDS,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      // transformResponse: (res) => {
-      //   console.log(res, JSON.parse(res));
-      //   return superjson.parse(res);
-      // },
       responseType: "json",
     });
 
@@ -31,10 +28,6 @@ class ApiInstance {
         return Promise.reject(error.message);
       }
     );
-  }
-
-  setToken(token) {
-    this.instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 }
 

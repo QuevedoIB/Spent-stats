@@ -3,7 +3,6 @@ import { Listbox } from "@headlessui/react";
 import { CATEGORIES_PICTURES } from "src/constants";
 
 const SelectCategoryIcon = ({ handleChange, selected }) => {
-  console.log(CATEGORIES_PICTURES, selected);
   const SelectedIcon = CATEGORIES_PICTURES.find(
     (icon) => icon.id === selected
   )?.icon;

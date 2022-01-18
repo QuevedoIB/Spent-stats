@@ -58,3 +58,6 @@ export const CATEGORIES_PICTURES = [
     icon: MdFastfood,
   },
 ];
+
+// TIME
+export const MINUTE_MILLISECONDS = 60 * 1000;

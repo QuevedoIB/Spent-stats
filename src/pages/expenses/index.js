@@ -2,6 +2,7 @@ import { getSession } from "next-auth/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SWRConfig } from "swr";
 import { getExpenses } from "src/pages/api/expenses";
+import { getCategories } from "src/pages/api/categories";
 
 import CreateExpenseButton from "src/components/buttons/Add";
 import CreateExpenseForm from "src/components/forms/CreateExpense";
@@ -32,7 +33,11 @@ export async function getServerSideProps({ locale, ...context }) {
     };
   }
 
-  const expenses = await getExpenses(session.user);
+  const [{ value: expenses }, { value: categories }] = await Promise.allSettled(
+    [getExpenses(session.user), getCategories(session.user)]
+  );
+
+  console.log(expenses, categories);
 
   return {
     props: {
@@ -40,6 +45,7 @@ export async function getServerSideProps({ locale, ...context }) {
       session,
       fallback: {
         "/api/expenses": expenses,
+        "/api/categories": categories,
       },
     },
   };
