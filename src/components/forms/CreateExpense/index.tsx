@@ -1,5 +1,5 @@
 import { Formik, Form, FastField } from "formik";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 
 import ExpensesService from "src/services/ExpensesService";
 import CategoriesService from "src/services/CategoriesService";
@@ -7,24 +7,34 @@ import CategoriesService from "src/services/CategoriesService";
 const initialValues = {
   concept: "",
   amount: "",
-  category: "",
+  categoryId: "",
   date: "",
 };
 
 const ExpenseForm = () => {
+  const { mutate } = useSWRConfig();
   const { data: categories } = useSWR(
     "/api/categories",
     async () => await CategoriesService.getCategories()
   );
 
-  console.log({ categories });
+  const { data: expenses } = useSWR(
+    "/api/expenses",
+    async () => await ExpensesService.getExpenses()
+  );
 
   const onSubmit = async (values, actions) => {
-    console.log(values);
+    try {
+      console.log(values);
 
-    const res = await ExpensesService.createExpense(values);
+      const res = await ExpensesService.createExpense(values);
 
-    console.log(res);
+      mutate("/api/expenses", [res, ...expenses], false);
+
+      console.log(res);
+    } catch (error) {
+      //handle error
+    }
   };
 
   return (
@@ -34,7 +44,15 @@ const ExpenseForm = () => {
           <Form>
             <FastField name="concept" type="text" placeholder="Concept" />
             <FastField name="amount" type="number" placeholder="Amount" />
-            <FastField name="category" type="text" placeholder="Category" />
+
+            <FastField name="categoryId" as="select">
+              <option value="">Select a category</option>
+              {categories?.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </FastField>
             <FastField name="date" type="date" placeholder="Date" />
             <button type="submit" disabled={!isValid || isSubmitting}>
               Add Expense

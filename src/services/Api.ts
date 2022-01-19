@@ -1,8 +1,9 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 import { MINUTE_MILLISECONDS } from "src/constants";
 
 class ApiInstance {
+  instance: AxiosInstance;
   constructor() {
     this.instance = axios.create({
       baseURL: process.env.NEXT_PUBLIC_API_URL,

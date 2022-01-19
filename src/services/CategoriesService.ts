@@ -1,11 +1,15 @@
+
+import { Category } from "@prisma/client";
+import { AxiosInstance } from "axios";
 import ApiInstance from "./Api";
 
 class CategoriesService {
+  api: AxiosInstance;
   constructor() {
     this.api = ApiInstance.instance;
   }
 
-  async getCategories() {
+  async getCategories() : Promise<Category[]> {
     return await this.api.get("categories");
   }
 
