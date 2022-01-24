@@ -6,14 +6,14 @@ import ExpensesService from "src/services/ExpensesService";
 import parseDate from "src/utils/parseDate";
 
 const ExpensesList = () => {
-  const { data: expenses } = useSWR(
+  const { data } = useSWR(
     "/api/expenses",
     async () => await ExpensesService.getExpenses()
   );
-  console.log({ expenses });
+  console.log({ data });
   return (
     <ul>
-      {expenses?.map((expense: Entry) => (
+      {data?.expenses?.map((expense: Entry) => (
         <li key={expense.id}>
           <p>
             {expense.concept}: {expense.amount}€

@@ -11,11 +11,12 @@ const initialValues = {
   picture: CATEGORIES_PICTURES[0].id,
 };
 
-const ExpenseForm = () => {
+const CategoriesForm = () => {
   const onSubmit = async (values, actions) => {
     console.log(values);
 
     const res = await CategoriesService.createCategory(values);
+    // mutate("/api/expenses", [res, ...expenses], false);
 
     console.log(res);
   };
@@ -40,4 +41,4 @@ const ExpenseForm = () => {
   );
 };
 
-export default ExpenseForm;
+export default CategoriesForm;

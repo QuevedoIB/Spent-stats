@@ -9,7 +9,6 @@ handler.post(async (req, res) => {
 
   if (!user?.email) return res.status(400).json({ error: "Missing user data" });
 
-  console.log({ user, body });
   const { categoryId, date, ...data } = body;
 
   const newExpense = await prisma.entry.create({

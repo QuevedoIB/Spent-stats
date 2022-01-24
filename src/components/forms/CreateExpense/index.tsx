@@ -25,13 +25,8 @@ const ExpenseForm = () => {
 
   const onSubmit = async (values, actions) => {
     try {
-      console.log(values);
-
       const res = await ExpensesService.createExpense(values);
-
       mutate("/api/expenses", [res, ...expenses], false);
-
-      console.log(res);
     } catch (error) {
       //handle error
     }

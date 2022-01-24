@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { getSession, SessionProviderProps } from "next-auth/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SWRConfig } from "swr";
-import { getCategories } from "src/pages/api/categories";
+import { getCategories } from "src/pages/api/categories/[[...pagination]].js";
 
 import AddCategory from "src/components/buttons/Add";
 import CreateCategoryForm from "src/components/forms/CreateCategory";
@@ -43,8 +43,6 @@ export async function getServerSideProps({ locale, ...context }) {
   }
 
   const categories = await getCategories(session.user);
-
-  console.log({ categories });
 
   return {
     props: {

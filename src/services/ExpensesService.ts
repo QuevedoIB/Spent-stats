@@ -13,7 +13,7 @@ class ExpensesService {
     this.api = ApiInstance.instance;
   }
 
-  async getExpenses(): Promise<Entry[]> {
+  async getExpenses(): Promise<{ total: number; expenses: Entry[]}> {
     return await this.api.get("expenses");
   }
 

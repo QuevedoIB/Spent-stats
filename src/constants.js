@@ -61,3 +61,6 @@ export const CATEGORIES_PICTURES = [
 
 // TIME
 export const MINUTE_MILLISECONDS = 60 * 1000;
+
+// LISTS
+export const DEFAULT_LIMIT = 10;
