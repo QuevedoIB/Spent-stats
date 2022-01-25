@@ -7,16 +7,20 @@
     Cuando el item del final se muestra lanzar un callback onEndReached
 */
 
-import { useRef } from "react";
-import { useObserver } from "src/hooks/useObserver";
+import React, { useRef, useEffect, useState } from "react";
+import useObserver from "src/hooks/useObserver";
 
 const VirtualizedList = ({
   onEndReached = () => null,
   list = [],
   totalLength,
   itemHeight = 0,
+  Row,
+  keyExtractor,
 }) => {
   const observerItem = useRef();
+  const listRef = useRef();
+  const [listHeight, setListHeight] = useState(totalLength * itemHeight);
 
   useObserver({
     ref: observerItem,
@@ -25,11 +29,22 @@ const VirtualizedList = ({
     options: { rootMargin: "20px" }, //empty li as observed item or use one of last items displayed?
   });
 
+  useEffect(() => {
+    if (!itemHeight) {
+      setListHeight((listRef.current.clientHeight / list.length) * totalLength);
+    }
+  }, [itemHeight, list.length, totalLength]);
+
+  console.log({ listHeight });
+
   return (
-    <div>
-      <ul style={{ height: (totalLength ?? list?.length) * itemHeight }}>
-        <li ref={observerItem} id="list-observer" />
+    <div style={{ height: listHeight }}>
+      <ul ref={listRef}>
+        {list.map((item, i) => (
+          <Row key={item?.[keyExtractor] ?? i} item={item} />
+        ))}
       </ul>
+      <div ref={observerItem} id="list-observer" />
     </div>
   );
 };

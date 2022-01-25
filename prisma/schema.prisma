@@ -68,7 +68,7 @@ model Entry {
   authorId   String
   categoryId String
   date       DateTime @default(now())
-  createdAt  DateTime @unique @default(now())
+  createdAt  DateTime @default(now())
 }
 
 model Category {
@@ -79,5 +79,5 @@ model Category {
   authorId  String
   entries   Entry[]
   date      DateTime @default(now())
-  createdAt DateTime @unique @default(now())
+  createdAt DateTime @default(now())
 }
