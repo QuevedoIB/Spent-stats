@@ -10,6 +10,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import useObserver from "src/hooks/useObserver";
 
+// import styles from "../VirtualizedList.module.css";
+
+import styles from "./VirtualizedList.module.css";
+
 const VirtualizedList = ({
   onEndReached = () => null,
   list = [],
@@ -20,14 +24,15 @@ const VirtualizedList = ({
 }) => {
   const observerItem = useRef();
   const listRef = useRef();
-  const [listHeight, setListHeight] = useState(totalLength * itemHeight);
 
-  useObserver({
+  const isIntersecting = useObserver({
     ref: observerItem,
     keepObserving: true,
     intersectingCallback: onEndReached,
-    options: { rootMargin: "20px" }, //empty li as observed item or use one of last items displayed?
+    options: { rootMargin: "20px" },
   });
+
+  console.log({ isIntersecting });
 
   useEffect(() => {
     if (!itemHeight) {
@@ -35,16 +40,33 @@ const VirtualizedList = ({
     }
   }, [itemHeight, list.length, totalLength]);
 
-  console.log({ listHeight });
-
   return (
-    <div style={{ height: listHeight }}>
-      <ul ref={listRef}>
+    <div
+      className={styles.listContainer}
+      style={{ overflowY: "scroll", height: `${itemHeight * 10}px` }}
+    >
+      <ul
+        ref={listRef}
+        style={{
+          height: `${itemHeight * totalLength}px`,
+          position: "relative",
+        }}
+      >
         {list.map((item, i) => (
-          <Row key={item?.[keyExtractor] ?? i} item={item} />
+          <li
+            key={item?.[keyExtractor] ?? i}
+            style={{
+              position: "absolute",
+              top: `${i * itemHeight}px`,
+              width: "100%",
+              height: `${itemHeight}px`,
+            }}
+          >
+            <Row item={item} />
+          </li>
         ))}
+        <li ref={observerItem} id="list-observer" />
       </ul>
-      <div ref={observerItem} id="list-observer" />
     </div>
   );
 };

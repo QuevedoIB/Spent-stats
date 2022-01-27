@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import useSWR from "swr";
 import { Entry } from "@prisma/client";
 
@@ -8,43 +8,42 @@ import ExpensesService from "src/services/ExpensesService";
 
 import parseDate from "src/utils/parseDate";
 
-const ExpenseRow = (props) => {
-  console.log({ props });
-  return <li style={{ height: "100px" }}>HEY</li>;
+const ExpenseRow = ({ item: { id, concept, amount, date } }) => {
+  return (
+    <>
+      <p>
+        {concept}: {amount}€
+      </p>
+      <p>{parseDate({ date })}</p>
+    </>
+  );
 };
 
 const ExpensesList = () => {
+  const [cursorDate, setCursorDate] = useState(null);
   const { data } = useSWR(
-    "/api/expenses",
-    async () => await ExpensesService.getExpenses()
+    `/api/expenses${cursorDate ? `?cursorDate=${cursorDate}` : ""}`,
+    async () => await ExpensesService.getExpenses(cursorDate)
   );
 
   const handleEndListReached = useCallback(() => {
-    if (data?.total < data?.expenses.length) {
+    if (data?.total > data?.expenses.length) {
       console.log("FETCH MORE");
+      setCursorDate(data?.expenses[data?.expenses.length - 1].date);
     }
-  }, [data?.expenses.length, data?.total]);
+  }, [data?.expenses, data?.total]);
+
+  console.log({ data, cursorDate });
 
   return (
-    <>
-      <VirtualizedList
-        totalLength={data?.total}
-        list={data?.expenses}
-        onEndReached={handleEndListReached}
-        Row={ExpenseRow}
-        keyExtractor="id"
-      />
-      <ul>
-        {data?.expenses?.map((expense: Entry) => (
-          <li key={expense.id}>
-            <p>
-              {expense.concept}: {expense.amount}€
-            </p>
-            <p>{parseDate({ date: expense.date })}</p>
-          </li>
-        ))}
-      </ul>
-    </>
+    <VirtualizedList
+      totalLength={data?.total}
+      list={data?.expenses}
+      onEndReached={handleEndListReached}
+      Row={ExpenseRow}
+      keyExtractor="id"
+      itemHeight={100}
+    />
   );
 };
 

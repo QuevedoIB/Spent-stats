@@ -2,6 +2,8 @@ import { Entry } from "@prisma/client";
 import { AxiosInstance } from "axios";
 import ApiInstance from "./Api";
 
+import {DEFAULT_LIMIT} from "src/constants";
+
 interface ExpenseForm {
   name: string;
   picture: string
@@ -13,8 +15,8 @@ class ExpensesService {
     this.api = ApiInstance.instance;
   }
 
-  async getExpenses(): Promise<{ total: number; expenses: Entry[]}> {
-    return await this.api.get("expenses");
+  async getExpenses(cursorDate): Promise<{ total: number; expenses: Entry[]}> {
+    return await this.api.get(`expenses/${DEFAULT_LIMIT}/${cursorDate}`);
   }
 
   async createExpense(data: ExpenseForm): Promise<Boolean> {
