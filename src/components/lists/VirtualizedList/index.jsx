@@ -21,13 +21,14 @@ const VirtualizedList = ({
   itemHeight = 0,
   Row,
   keyExtractor,
+  keepObserving = true,
 }) => {
   const observerItem = useRef();
   const listRef = useRef();
 
   const isIntersecting = useObserver({
     ref: observerItem,
-    keepObserving: true,
+    keepObserving,
     intersectingCallback: onEndReached,
     options: { rootMargin: "20px" },
   });
@@ -39,6 +40,8 @@ const VirtualizedList = ({
       setListHeight((listRef.current.clientHeight / list.length) * totalLength);
     }
   }, [itemHeight, list.length, totalLength]);
+
+  console.log(list.length, itemHeight, list.length + 1 * itemHeight);
 
   return (
     <div
@@ -65,7 +68,14 @@ const VirtualizedList = ({
             <Row item={item} />
           </li>
         ))}
-        <li ref={observerItem} id="list-observer" />
+        <li
+          ref={observerItem}
+          id="list-observer"
+          style={{
+            position: "absolute",
+            top: `${list.length * itemHeight}px`,
+          }}
+        />
       </ul>
     </div>
   );

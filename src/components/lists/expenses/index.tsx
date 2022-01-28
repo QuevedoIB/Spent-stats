@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import useSWR from "swr";
 import { Entry } from "@prisma/client";
 
@@ -26,12 +26,17 @@ const ExpensesList = () => {
     async () => await ExpensesService.getExpenses(cursorDate)
   );
 
+  const isItemsLeft = useMemo(
+    () => data?.total > data?.expenses.length,
+    [data?.expenses.length, data?.total]
+  );
+
   const handleEndListReached = useCallback(() => {
-    if (data?.total > data?.expenses.length) {
+    if (isItemsLeft) {
       console.log("FETCH MORE");
       setCursorDate(data?.expenses[data?.expenses.length - 1].date);
     }
-  }, [data?.expenses, data?.total]);
+  }, [data?.expenses, isItemsLeft]);
 
   console.log({ data, cursorDate });
 
@@ -43,6 +48,7 @@ const ExpensesList = () => {
       Row={ExpenseRow}
       keyExtractor="id"
       itemHeight={100}
+      keepObserving={isItemsLeft}
     />
   );
 };
