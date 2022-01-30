@@ -1,12 +1,19 @@
 import { useCallback, useState, useMemo } from "react";
-import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 import { Entry } from "@prisma/client";
 
 import VirtualizedList from "src/components/lists/VirtualizedList";
 
 import ExpensesService from "src/services/ExpensesService";
 
+import useStaleSwr from "src/hooks/useStaleSwr";
 import parseDate from "src/utils/parseDate";
+import { DEFAULT_LIMIT } from "src/constants";
+
+const getKey = (cursorDate, pageSize) => {
+  console.log({ cursorDate, pageSize });
+  return `/api/expenses${cursorDate ? `?cursorDate=${cursorDate}` : ""}`;
+};
 
 const ExpenseRow = ({ item: { id, concept, amount, date } }) => {
   return (
@@ -21,29 +28,37 @@ const ExpenseRow = ({ item: { id, concept, amount, date } }) => {
 
 const ExpensesList = () => {
   const [cursorDate, setCursorDate] = useState(null);
-  const { data } = useSWR(
-    `/api/expenses${cursorDate ? `?cursorDate=${cursorDate}` : ""}`,
-    async () => await ExpensesService.getExpenses(cursorDate)
-  );
+
+  const {
+    data: [items] = [],
+    error,
+    mutate,
+    size,
+    setSize,
+    isValidating,
+  } = useStaleSwr({
+    getKey: () => getKey(cursorDate, DEFAULT_LIMIT),
+    fetcher: () => ExpensesService.getExpenses(cursorDate),
+  });
+
+  console.log({ items, isValidating });
 
   const isItemsLeft = useMemo(
-    () => data?.total > data?.expenses.length,
-    [data?.expenses.length, data?.total]
+    () => items?.total > items?.expenses?.length,
+    [items?.expenses?.length, items?.total]
   );
 
   const handleEndListReached = useCallback(() => {
     if (isItemsLeft) {
       console.log("FETCH MORE");
-      setCursorDate(data?.expenses[data?.expenses.length - 1].date);
+      setCursorDate(items?.expenses[items?.expenses.length - 1].date);
     }
-  }, [data?.expenses, isItemsLeft]);
-
-  console.log({ data, cursorDate });
+  }, [items?.expenses, isItemsLeft]);
 
   return (
     <VirtualizedList
-      totalLength={data?.total}
-      list={data?.expenses}
+      totalLength={items?.total}
+      list={items?.expenses}
       onEndReached={handleEndListReached}
       Row={ExpenseRow}
       keyExtractor="id"
